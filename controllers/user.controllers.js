@@ -2,7 +2,6 @@ const catchAsync = require('../utils/catchAsync');
 const User = require('../models/users.model');
 
 exports.findAllUsers = catchAsync(async (req, res, next) => {
-
   const users = await User.findAll({
     attributes: ['id', 'name', 'email'],
     where: {
@@ -15,11 +14,9 @@ exports.findAllUsers = catchAsync(async (req, res, next) => {
     message: 'Users found',
     users,
   });
-
 });
 
 exports.findOneUser = catchAsync(async (req, res, next) => {
-  
   const { user } = req;
 
   return res.status(200).json({
@@ -27,11 +24,9 @@ exports.findOneUser = catchAsync(async (req, res, next) => {
     message: 'User Found',
     user,
   });
-
 });
 
 exports.createUser = catchAsync(async (req, res, next) => {
-  
   const { name, email, password, role } = req.body;
 
   const user = await User.create({
@@ -45,11 +40,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
     message: 'User created',
     user,
   });
-
 });
-
-
-
 
 exports.updateUser = catchAsync(async (req, res, next) => {
   const { user } = req;
