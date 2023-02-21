@@ -1,7 +1,7 @@
 const Repair = require('../models/repairs.model');
 
 
-exports.findAllRepairs = async (req, res) => {
+exports.findAllRepairs = async (req, res, next) => {
   try {
     const repairs = await Repair.findAll({
       attributes: ['id', 'date', 'userId'],
