@@ -26,21 +26,7 @@ exports.findOneUser = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createUser = catchAsync(async (req, res, next) => {
-  const { name, email, password, role } = req.body;
 
-  const user = await User.create({
-    name,
-    email,
-    password,
-    role,
-  });
-  return res.status(201).json({
-    status: 'success',
-    message: 'User created',
-    user,
-  });
-});
 
 exports.updateUser = catchAsync(async (req, res, next) => {
   const { user } = req;
