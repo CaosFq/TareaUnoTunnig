@@ -17,7 +17,7 @@ router.post(
    
     //Primero similar a lo que hicimos con el nombre pero ahora con el correo: si existe pasa
     //***********************************************************************: Sino existe se envia un mensaje de error
-    check('email', 'The email must mandatory').not().isEmpty(),
+    checkgit ('email', 'The email must mandatory').not().isEmpty(),
 
     //Luego se puede validar el formato:
     check('email', 'The email must be a correct format').isEmail(),
@@ -30,8 +30,6 @@ validateFields,
 ],
 createUser
 );
-
-
 
 module.exports = {
   authRouter: router,
