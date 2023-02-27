@@ -38,7 +38,23 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(
       new AppError('The owner of this token not longer available', 401)
     );
+    if(user.passwordChangedAt){
+    const changedTimeStamp = parseInt(
+      user.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    if (decoded.iat < changedTimeStamp) {
+      return next(
+        new AppError(
+          'User recently changed password!, please login again', 
+          401
+          )
+      );
+    }
   }
+    req.sessionUser = user;
+
   //4. Check if user changed password after token was issued,Verifique si el usuario cambió la contraseña después de que se emitió el token
   next();
+}
 });
