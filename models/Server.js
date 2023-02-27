@@ -12,39 +12,43 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
 
-    //Path Routes
+    //Definimos los PATHS de nuestra aplicación
     this.paths = {
       repairs: '/api/v1/repairs',
       users: '/api/v1/users',
       auth: '/api/v1/auth',
     };
 
-    //Connect to db
+    //Llamo al método de conexión a la base de datos
     this.database();
 
-    //Middlewares
+    //Invocamos a el metodo Middlewares
     this.middlewares();
 
-    //Routes
+    //Invocamos el método Routes
     this.routes();
   }
 
   middlewares() {
+    if (process.env.NODE_ENV === 'development') {
+      this.app.use(morgan('dev'));
+    }
+    //Utilizamos las cors para permitir el acceso a la API
     this.app.use(cors());
-    this.app.use(express.json());
   }
-  routes() {//Importante: la ruta siempre tiene que arriba de los errores
+  routes() {
+    //Importante: la ruta siempre tiene que arriba de los errores
     this.app.use(this.paths.users, userRouter);
     this.app.use(this.paths.repairs, repairRouter);
-    this.app.use(this.paths.auth, authRouter);//implemento la ruta para que se pueda buscar
+    this.app.use(this.paths.auth, authRouter); //implemento la ruta para que se pueda buscar
 
-  this.app.all('*', (req, res, next) => {
-   return next(new AppError(`Can't find ${req.originalUrl}on this server`, 404));
-
+    this.app.all('*', (req, res, next) => {
+      return next(
+        new AppError(`Can't find ${req.originalUrl}on this server`, 404)
+      );
     });
-    
-      this.app.use(globalErrorHandler);
-      
+
+    this.app.use(globalErrorHandler);
   }
 
   database() {
@@ -54,7 +58,10 @@ class Server {
 
     //relations
 
-    db.sync()
+    db.sync(/*{ force: true }*/) //¡¡¡Danger-Peligro!!!*****No hacer en el trabajo******Borra los datos de la aplicación
+      //*************En el trabajo se realiza desde la base de datos*****************
+      //***************Solo lo realizamos para que se sincronice******************
+      //Obs: muy importante para la practica agregue: {force: true}, una vez sincronizada, lo borro!!!.
       .then(() => console.log('Database synced'))
       .catch(err => console.log(err));
   }

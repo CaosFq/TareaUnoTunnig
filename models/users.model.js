@@ -26,9 +26,16 @@ const User = db.define('users', {
         defaultValue: 'client',
     
     },
-    status: {
+    passwordChangedAt:{
+//alamcena la fecha en que se cambia la contraseña
+   type: DataTypes.DATE,
+   allowNull:true,
+
+    },
+status: {
         type: DataTypes.ENUM('available','disabled'),
         allowNull: false,
         defaultValue: 'available',
-    }
-})
+    },
+});
+module.exports = User;
