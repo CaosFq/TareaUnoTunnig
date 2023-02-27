@@ -7,6 +7,8 @@ const { Router } = requiere('express');
 
 const router = Router();
 
+router.use(protect)
+
 router.post(
     '/signup', [ 
     
@@ -27,7 +29,7 @@ router.post(
     //Validacion del password:
     check('password', 'The password must be mandatory').not().isEmpty(),
 validateFields,
-protect,
+
 ],
 createUser
 );
