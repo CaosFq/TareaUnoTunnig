@@ -21,9 +21,9 @@ router.use(protect);
 router.patch(
   '/:id',
   [
-    check('name', 'The username must mandatory').not().isEmpty(),
+    check('name', 'The name must mandatory').not().isEmpty(),
     check('email', 'The email must mandatory').not().isEmpty(),
-    check('email', 'The email must be a correct format').isEmail(),
+    check('password', 'The password must be a correct format').isEmail(),
     validateFields,
     
     validExistUser,

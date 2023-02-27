@@ -1,19 +1,40 @@
 const { Router } = require('express');
-const { findAllRepairs, findOneRepair, createRepair, updateRepair, deleteRepair, } = require('../controllers/user.controllers');
+const{ check } = require('express-validator');
+const {
+  findAllRepairs,
+  findOneRepair,
+  createRepair,
+  updateRepair,
+  deleteRepair,
+} = require('../controllers/repair.controller');
+const {protect, protectAccountOwner } = require('../middlewares/auth.middleware');
+const { validExistRepair } = require('../middlewares/repairs.middleware');
+const { validateFields } = require('../middlewares/validateField.middeleware');
 
 const router = Router();
 
 router.get('/', findAllRepairs);
 
-router.get('/:id', findOneRepair);
+router.get('/:id',validExistRepair, findOneRepair);
+router.use(protect);
+router.patch(
+  '/:id',
+  [
+    check('date', 'The date must mandatory').not().isEmpty(),
+    check('motorsNumber', 'The motorNumber must mandatory').not().isEmpty(),
+    check('description', 'The description must mandatory').isEmail(),
+    validateFields,
+    
+    validExistRepair,
+  ],
+  updateRepair
 
-router.post('/', createRepair);
+);
 
-router.patch('/:id', updateRepair);
 
-router.delete('/:id', deleteRepair);
 
+router.delete('/:id',validExistRepair, deleteRepair);
 
 module.exports = {
-    repairRouter: router,
+  repairRouter: router,
 };
