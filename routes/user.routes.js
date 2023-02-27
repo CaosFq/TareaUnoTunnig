@@ -8,6 +8,7 @@ const {
   deleteUser,
   updatePassword,
 } = require('../controllers/user.controllers');
+const { protect, protectAccountOwner } = require('../middlewares/auth.middleware');
 const { validExistUser } = require('../middlewares/users.middleware');
 const { validateFields } = require('../middlewares/validateField.middeleware');
 
@@ -16,7 +17,7 @@ const router = Router();
 router.get('/', findAllUsers);
 
 router.get('/:id', validExistUser, findOneUser);
-
+router.use(protect);
 router.patch(
   '/:id',
   [
@@ -35,9 +36,11 @@ router.patch(
   check('current/Password', 'The current password must be mandatory')
   .not()
   .isEmpty(),
-  check('newPassword', 'The current password must be mandatory').not().isEmpty(),
+  check('newPassword', 'The new password must be mandatory').not().isEmpty(),
   validateFields,
-  validExistUser
+  validExistUser,
+  protectAccountOwner
+
 ],
 updatePassword
 );
