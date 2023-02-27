@@ -70,3 +70,11 @@ exports.protectAccountOwner = catchAsync( async(req, res, next) =>{
 next();
 
 });
+exports.restrictTo = (...roles) => {
+return(req, res, next)=>{
+  if(!roles.includes(req.sessionUser.role)){
+    return moveMessagePortToContext(new AppError('You do not have permission to perfom this action', 403))
+  }
+  next();
+};
+};
