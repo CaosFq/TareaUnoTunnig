@@ -15,7 +15,7 @@ const router = Router();
 
 router.get('/', findAllRepairs);
 
-router.get('/:id',validExistRepair, findOneRepair);
+router.get('/:id',validExistRepair,restrictTo('employee'), findOneRepair);
 
 router.use(protect);
 router.patch(
@@ -34,7 +34,7 @@ router.patch(
 
 
 
-router.delete('/:id',validExistRepair, deleteRepair);
+router.delete('/:id',validExistRepair,restrictTo('employee'), deleteRepair);
 
 module.exports = {
   repairRouter: router,

@@ -6,6 +6,7 @@ const { repairRouter } = require('../routes/repair.routes');
 const globalErrorHandler = require('../controllers/error.controller');
 const AppError = require('../utils/appError');
 const { authRouter } = require('../routes/auth.routes');
+const initModel = require('./initModels');
 c
 
 
@@ -60,6 +61,7 @@ class Server {
       .catch(err => console.log(err));
 
     //relations
+    initModel();
 
     db.sync(/*{ force: true }*/) //¡¡¡Danger-Peligro!!!*****No hacer en el trabajo******Borra los datos de la aplicación
       //*************En el trabajo se realiza desde la base de datos*****************

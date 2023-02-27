@@ -50,5 +50,5 @@ if (process.env.NODE_ENV === 'production') {
   if (error.name === 'TokenExpiredError') error = handleJWTExpiredError(error);
 
   sendErrorProd(error, res);
-}
-module.exports = globalErrorHandler;
+};
+
